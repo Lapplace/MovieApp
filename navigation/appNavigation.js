@@ -62,9 +62,9 @@ function Mytabs() {
 export default function AppNavigation() {
   return (
     <NavigationContainer>
-      <Stack.Navigator innitialRouteName="HomeTabs" >
-        <Stack.Screen name="HomeTabs" options={{ headerShown: false }} component={Mytabs} />
+      <Stack.Navigator innitialRouteName="Login" >
         <Stack.Screen name="Login" options={{ headerShown: false }} component={LoginScreen} />
+        <Stack.Screen name="HomeTabs" options={{ headerShown: false }} component={Mytabs} />
         <Stack.Screen name="Movie" options={{ headerShown: false }} component={MovieScreen} />
         <Stack.Screen name="Search" options={{ headerShown: false }} component={SearchScreen} />
         <Stack.Screen name="Account" options={{ headerShown: false }} component={Account} />

@@ -4,6 +4,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons } from '@expo/vector-icons';
 import { FONTS, COLORS } from '../theme';
 import { useNavigation } from '@react-navigation/native'
+import { removeUserID } from '../server/userName';
+
 
 export default function Setting() {
      const navigation = useNavigation();
@@ -45,6 +47,8 @@ export default function Setting() {
      }
      const logout = () => {
           navigation.navigate("Login");
+          removeUserID();
+
      }
      const accountItem = [
           { icon: "person-outline", text: "Edit Profile", action: navigateToEditProfile },
