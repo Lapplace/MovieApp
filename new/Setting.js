@@ -16,6 +16,7 @@ export default function Setting() {
      }
      const navigateToSecurity = () => {
           console.log("Security function")
+          // navigation.navigate("tutorial");
      }
      const navigateToNotifications = () => {
           console.log("Security function")
@@ -24,27 +25,6 @@ export default function Setting() {
           console.log("Security function")
      }
 
-     const navigateToSubscription = () => {
-          console.log("support");
-     }
-     const navigateToSupport = () => {
-          console.log("support");
-     }
-     const navigateToTermsAndPolicies = () => {
-          console.log("support");
-     }
-     const navigateToFreeSpace = () => {
-          console.log("cacheAndCellularItems");
-     }
-     const navigateToDateSaver = () => {
-          console.log("cacheAndCellularItems");
-     }
-     const navigateToReportProblem = () => {
-          console.log("cacheAndCellularItems");
-     }
-     const addAcount = () => {
-          console.log("cacheAndCellularItems");
-     }
      const logout = () => {
           navigation.navigate("Login");
           removeUserID();
@@ -54,22 +34,10 @@ export default function Setting() {
           { icon: "person-outline", text: "Edit Profile", action: navigateToEditProfile },
           { icon: "security", text: "Security", action: navigateToSecurity },
           { icon: "notifications-none", text: "Nontifications", action: navigateToNotifications },
-          { icon: "lock-outline", text: "Privacy", action: navigateToPrivacy }
-     ];
-     const suportItem = [
-          { item: "credit_card", text: "My Subscription", action: navigateToSubscription },
-          { item: "help-outline", text: "Help & Support", action: navigateToSupport },
-          { item: "info-outline", text: "Terms and Policies", action: navigateToTermsAndPolicies }
-     ];
-     const cacheAndCellularItems = [
-          { item: "delete-outline", text: "Free up space", action: navigateToFreeSpace },
-          { item: "save-alt", text: "Date Saver", action: navigateToDateSaver },
-     ];
-     const actionItems = [
-          { item: "outline-flag", text: "Report a problem", action: navigateToReportProblem },
-          { item: "people-outline", text: "Add Account", action: addAcount },
+          { icon: "lock-outline", text: "Privacy", action: navigateToPrivacy },
           { item: "logout", text: "Log out", action: logout }
      ];
+     
      const renderSettingsItem = ({ icon, text, action }) => (
           <TouchableOpacity
                onPress={action}
@@ -79,12 +47,13 @@ export default function Setting() {
                     paddingVertical: 8,
                     paddingLeft: 12
                }}>
-               <MaterialIcons name={icon} size={24} color="black" />
+               <MaterialIcons name={icon} size={24} color="white" />
                <Text style={{
                     marginLeft: 36,
                     ...FONTS.semiBold,
                     fontWeight: 600,
-                    fontSize: 16
+                    fontSize: 16,
+                    color: COLORS.white,
                }}>
                     {text}
                </Text>
@@ -93,7 +62,7 @@ export default function Setting() {
      return (
           <SafeAreaView style={{
                flex: 1,
-               backgroundColor: '#fff'
+               backgroundColor: '#121212'
           }}>
                <View style={{
                     marginHorizontal: 12,
@@ -115,12 +84,12 @@ export default function Setting() {
                          />
                     </TouchableOpacity>
 
-                    <Text style={{ ...FONTS.h3 }}>Setting</Text>
+                    <Text style={{ ...FONTS.h3,color: COLORS.white }} >Setting</Text>
                </View>
                <ScrollView style={{ marginBottom: 12 }}>
                     {/* AccountSetting */}
                     <View style={{ marginBottom: 12 }}>
-                         <Text style={{ ...FONTS.h4, marginVertical: 10 }}>Account</Text>
+                         <Text style={{ ...FONTS.h4, marginVertical: 10, color: COLORS.white }}>Account</Text>
                          <View style={{
                               borderRadius: 12,
                               backgroundColor: COLORS.gray,
@@ -134,38 +103,7 @@ export default function Setting() {
                               }
                          </View>
                     </View>
-                    {/* Support and About setting */}
-                    <View style={{ marginBottom: 12 }}>
-                         <Text style={{ ...FONTS.h4, marginVertical: 10 }}>Support & About</Text>
-                         <View style={{
-                              borderRadius: 12,
-                              backgroundColor: COLORS.gray,
-                         }}>
-                              {
-                                   suportItem.map((item, index) => (
-                                        <React.Fragment key={index}>
-                                             {renderSettingsItem(item)}
-                                        </React.Fragment>
-                                   ))
-                              }
-                         </View>
-                    </View>
-                    {/* Login,logout */}
-                    <View style={{ marginBottom: 12 }}>
-                         <Text style={{ ...FONTS.h4, marginVertical: 10 }}>Log out</Text>
-                         <View style={{
-                              borderRadius: 12,
-                              backgroundColor: COLORS.gray,
-                         }}>
-                              {
-                                   actionItems.map((item, index) => (
-                                        <React.Fragment key={index}>
-                                             {renderSettingsItem(item)}
-                                        </React.Fragment>
-                                   ))
-                              }
-                         </View>
-                    </View>
+                    
                </ScrollView>
           </SafeAreaView>
      )

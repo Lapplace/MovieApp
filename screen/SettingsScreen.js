@@ -1,51 +1,63 @@
 import React from 'react';
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { removeUserID } from '../server/userName';
+import { ScrollView, StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 
 const SettingScreen = () => {
-  const navigation = useNavigation();
-  
-  const handleLoginPress = () => {
-    navigation.navigate('Login'); 
-    removeUserID();
-  }
-
-  const handleFavoritePress = () => {
-    // Xử lý khi nút "Yêu thích" được nhấn
+  const handleButtonPress = (buttonName) => {
+    // Xử lý khi người dùng nhấn vào một nút
+    console.log(`Pressed ${buttonName}`);
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={handleLoginPress}>
-        <Text style={styles.buttonText}>Đăng xuất</Text>
+    <ScrollView contentContainerStyle={styles.container}>
+      <TouchableOpacity
+        style={[styles.button, { backgroundColor: styles.background }]}
+        onPress={() => handleButtonPress('Button 1')}
+      >
+        <Text style={styles.buttonText}>Button 1</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={handleFavoritePress}>
-        <Text style={styles.buttonText}>Yêu thích</Text>
+      <TouchableOpacity
+        style={[styles.button, { backgroundColor: styles.background }]}
+        onPress={() => handleButtonPress('Button 2')}
+      >
+        <Text style={styles.buttonText}>Button 2</Text>
       </TouchableOpacity>
-    </View>
+      <TouchableOpacity
+        style={[styles.button, { backgroundColor: styles.background }]}
+        onPress={() => handleButtonPress('Button 3')}
+      >
+        <Text style={styles.buttonText}>Button 3</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, { backgroundColor: styles.background }]}
+        onPress={() => handleButtonPress('Button 4')}
+      >
+        <Text style={styles.buttonText}>Button 4</Text>
+      </TouchableOpacity>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#121212',
+    flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#121212',
   },
   button: {
-    backgroundColor: 'white',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    marginVertical: 10,
+    width: '80%',
+    marginBottom: 20,
+    paddingVertical: 15,
+    paddingHorizontal: 10,
     borderRadius: 5,
+    alignItems: 'center',
   },
   buttonText: {
-    color: '#121212',
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
+    color: '#FFFFFF',
   },
+  background: '#FF5733', // Màu nền của các nút
 });
 
 export default SettingScreen;

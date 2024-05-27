@@ -98,13 +98,13 @@ export default function LoginScreen() {
             )}
             name="email"
           />
-          {errors.email && (
-            <Text className="text-red-500">Bạn chưa điền email!</Text>
-          )}
-          <Text>Mật khẩu</Text>
+          {/* {errors.email && (
+            <Text className="text-red-500">Email is required!</Text>
+          )} */}
+          <Text>Password</Text>
           <Controller
             control={control}
-            rules={{ required: true, minLength: 8 }}
+            rules={{ required: true, minLength: 6 }}
             render={({ field: { onChange } }) => (
               <TextInput
                 style={styles.input}
@@ -118,24 +118,24 @@ export default function LoginScreen() {
             )}
             name="password"
           />
-          {errors.password && (
+          {/* {errors.password && (
             <Text className="text-red-500">
               Bạn chưa điền mật khẩu! Mật khẩu phải chứa ít nhất 8 ký tự.
             </Text>
-          )}
+          )} */}
           <Pressable className="flex items-end">
-            <Text>Quên mật khẩu?</Text>
+            <Text>Forgot password?</Text>
           </Pressable>
           <Pressable
             title="Đăng nhập"
             className="bg-orange-600 p-2 my-4 rounded-xl"
             onPress={handleSubmit(onSubmit)}
           >
-            <Text className="text-white text-center font-bold">Đăng nhập</Text>
+            <Text className="text-white text-center font-bold">Log in</Text>
           </Pressable>
 
           <View className="items-center">
-            <Text>Hoặc đăng nhập bằng</Text>
+          <Text>Or</Text>
             <View className="flex-row space-x-4 py-3">
               <TouchableOpacity>
                 <Image
@@ -151,12 +151,12 @@ export default function LoginScreen() {
               </TouchableOpacity>
             </View>
             <View className="flex-row space-x-1">
-              <Text>Bạn đã có tài khoản?</Text>
+              <Text>Don't have an account?</Text>
               <Pressable
-                title="Đăng ký"
+                title="Signup"
                 onPress={() => navigation.navigate("Signup")}
               >
-                <Text className="text-orange-600 font-bold">Đăng ký</Text>
+                <Text className="text-orange-600 font-bold">Sign up</Text>
               </Pressable>
             </View>
           </View>

@@ -5,9 +5,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { XMarkIcon } from 'react-native-heroicons/outline';
 import Loading from '../components/loading';
 import { searchURL } from '../api/moviedbs';
-
+import { imageURL } from '../api/moviedbs';
 
 const { width, height } = Dimensions.get('window');
+const getFullImageLink = (imageLink) => `${imageURL}/${imageLink}`;
 
 export default function SearchScreen() {
      const navigation = useNavigation();
@@ -80,7 +81,7 @@ export default function SearchScreen() {
                                                        <View className="space-y-2 mb-4">
                                                             <Image className="rounded-3xl"
                                                                  // source={require('../assets/images/carot.jpg')}
-                                                                 source={{uri: item.image_link}}
+                                                                 source={{uri: getFullImageLink(item.image_link)}}
                                                                  style={{ width: width * 0.44, height: height * 0.3 }}
                                                             />
                                                             <Text className="text-neutral-300 ml-1">

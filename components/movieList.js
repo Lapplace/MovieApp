@@ -2,8 +2,13 @@ import { View, Text, TouchableOpacity, ScrollView, TouchableWithoutFeedback, Ima
 import React from 'react'
 import { styles } from '../theme'
 import { useNavigation } from '@react-navigation/native';
+import { imageURL } from '../api/moviedbs';
+
 
 var { width, height } = Dimensions.get('window');
+const getFullImageLink = (imageLink) => `${imageURL}/${imageLink}`;
+
+
 export default function MovieList({ title, data, hideSeeAll }) {
      // console.log(data);
      let movieName = 'sexy-Girl hfuurhhueufhkksufhugurrhu';
@@ -35,7 +40,7 @@ export default function MovieList({ title, data, hideSeeAll }) {
                                    >
                                         <View className="space-y-1 mr-4">
                                              <Image
-                                                  source={{uri: item.image_link}}
+                                                  source={{uri: getFullImageLink(item.image_link)}}
                                                   className="rounded-3xl"
                                                   style={{ width: width * 0.33, height: height * 0.22 }}
                                              />

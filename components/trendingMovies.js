@@ -2,8 +2,10 @@ import React from 'react';
 import { TouchableWithoutFeedback, Text, View, Dimensions, Image } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import { useNavigation } from '@react-navigation/native';
+import { imageURL } from '../api/moviedbs';
 
 var { width, height } = Dimensions.get('window');
+const getFullImageLink = (imageLink) => `${imageURL}/${imageLink}`;
 
 export default function TrendingMovies({ data }) {
   // console.log(data);
@@ -34,7 +36,7 @@ const MovieCard = ({ item, handleClick }) => {
     <TouchableWithoutFeedback onPress={() => handleClick(item)}>
       <View>
         <Image
-          source={{ uri: item.image_link}}
+          source={{ uri: getFullImageLink(item.image_link)}}
           style={{
             width: width * 0.6,
             height: height * 0.4,

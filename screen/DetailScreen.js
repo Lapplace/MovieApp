@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, FlatList, Text, Image, StyleSheet, TouchableWithoutFeedback, RefreshControl } from 'react-native';
 import { useNavigation } from '@react-navigation/native'
-import { getFavouriteURL } from '../api/moviedbs';
+import { getFavouriteURL,imageURL } from '../api/moviedbs';
 import { getUserID } from '../server/userName';
 
 const DetailScreen = () => {
@@ -9,6 +9,7 @@ const DetailScreen = () => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false); // State để xác định trạng thái làm mới
+  const getFullImageLink = (imageLink) => `${imageURL}/${imageLink}`;
 
   const navigation = useNavigation();
 
@@ -57,7 +58,7 @@ const DetailScreen = () => {
       style={styles.movie} 
     >
       <View style={styles.movie}>
-        <Image source={{ uri: item.image_link }} style={styles.image} resizeMode="cover" />
+        <Image source={{ uri: getFullImageLink(item.image_link) }} style={styles.image} resizeMode="cover" />
         <Text style={styles.title}>{item.title}</Text>
       </View>
     </TouchableWithoutFeedback>

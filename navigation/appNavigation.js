@@ -10,6 +10,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import Setting from "../new/Setting";
 import Account from "../new/Account";
+import Videos from "../new/Video";
+import SignupScreen from "../screen/SignupScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -64,10 +66,12 @@ export default function AppNavigation() {
     <NavigationContainer>
       <Stack.Navigator innitialRouteName="Login" >
         <Stack.Screen name="Login" options={{ headerShown: false }} component={LoginScreen} />
+        <Stack.Screen name="Signup" options={{ headerShown: false }} component={SignupScreen} />
         <Stack.Screen name="HomeTabs" options={{ headerShown: false }} component={Mytabs} />
         <Stack.Screen name="Movie" options={{ headerShown: false }} component={MovieScreen} />
         <Stack.Screen name="Search" options={{ headerShown: false }} component={SearchScreen} />
         <Stack.Screen name="Account" options={{ headerShown: false }} component={Account} />
+        <Stack.Screen name="ViewVideo" options={{ headerShown: false }} component={Videos} />
       </Stack.Navigator>
     </NavigationContainer>
   );

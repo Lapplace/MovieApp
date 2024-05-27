@@ -13,11 +13,12 @@ import Loading from '../components/loading';
 import { favouriteURL } from '../api/moviedbs';
 import { movieURL, isFavouriteURL } from '../api/moviedbs';
 import { getUserID } from '../server/userName';
-
+import { imageURL } from '../api/moviedbs';
 
 var { width, height } = Dimensions.get('window')
 const android = Platform.OS == 'android';
 const topMargin = android ? '' : 'mt-3';
+const getFullImageLink = (imageLink) => `${imageURL}/${imageLink}`;
 
 
 export default function MovieScreen() {
@@ -28,7 +29,7 @@ export default function MovieScreen() {
      const [similarMovies, setSimilarMovies] = useState([]);
      const [loading, setLoading] = useState(false);
      const movie_id = item.id_movie
-     console.log("id movie: ",movie_id);
+     // console.log("id movie: ",movie_id);
      // console.log(isFavourite)
 
 
@@ -63,11 +64,11 @@ export default function MovieScreen() {
      const fetchData = async () => {
           await getSimilarMovies();
           const userID = await getUserID();
-          console.log("ID của người dùng:", userID);
+          // console.log("ID của người dùng:", userID);
           setUserID(userID);
           await checkFavourite(userID, movie_id);
           setLoading(false);
-      }
+     }
      const getSimilarMovies = async () => {
           fetch(`${movieURL}`)
                .then(response => response.json())
@@ -97,7 +98,7 @@ export default function MovieScreen() {
                }
 
                const data = await response.json();
-               console.log(data);
+               // console.log(data);
                setIsFavourite(data.isFavourite)
           } catch (error) {
                console.error('There was a problem with the fetch operation:', error);
@@ -123,7 +124,7 @@ export default function MovieScreen() {
                          ) : (
                               <View>
                                    <Image
-                                        source={{ uri: item.image_link }}
+                                        source={{ uri: getFullImageLink(item.image_link) }}
                                         style={{ width, height: height * 0.55 }}
                                    />
                                    <LinearGradient
@@ -157,6 +158,13 @@ export default function MovieScreen() {
                               Diễn viên: {item.actors}
                          </Text>
                     </View>
+                    <TouchableOpacity
+                         style={styles.background}
+                         onPress={() => navigation.push('ViewVideo', item)}
+                         className="font-bold py-2 px-4 rounded-full"
+                    >
+                         <Text className="text-white text-center text-2xl">Play</Text>
+                    </TouchableOpacity>
                </View>
 
                {/* {cast.length > 0 && <Cast navigation={navigation} cast={cast} />} */}

@@ -28,6 +28,7 @@ export const COLORS = {
      lightGray: "#eff2f5",
      gray: "#808080",
      secondaryGray: '#888888', 
+     yellow: '#eab308'
 };
 
 
