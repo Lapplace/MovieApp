@@ -1,10 +1,10 @@
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView, Alert } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons } from '@expo/vector-icons';
 import { FONTS, COLORS } from '../theme';
 import { useNavigation } from '@react-navigation/native'
-import { removeUserID } from '../server/userName';
+import { removeUserIDVIP } from '../server/userName';
 
 
 export default function Setting() {
@@ -26,8 +26,9 @@ export default function Setting() {
      }
 
      const logout = () => {
+          Alert.alert("Successful logout");
           navigation.navigate("Login");
-          removeUserID();
+          removeUserIDVIP();
 
      }
      const accountItem = [

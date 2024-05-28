@@ -8,6 +8,8 @@ import {
      Pressable,
      StyleSheet,
      TouchableOpacity,
+     ScrollView,
+     Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { ArrowLeftIcon } from "react-native-heroicons/outline";
@@ -38,7 +40,7 @@ export default function SignupScreen() {
                     const response = await fetch(`${registerURL}`, {
                          method: 'POST',
                          headers: {
-                           'Content-Type': 'application/json',
+                              'Content-Type': 'application/json',
                          },
                          body: JSON.stringify({
                               username: userName,
@@ -48,9 +50,11 @@ export default function SignupScreen() {
                     });
                     const responseData = await response.json();
                     if (responseData.success) {
+                         Alert.alert("Successful registration");
                          navigation.navigate("Login");
                     } else {
-                         alert(responseData.message);
+                         Alert.alert("Registration failure",responseData.message);
+                         console.log(responseData.message);
                     }
                } catch (err) {
                     console.log('got error: ', err.message);

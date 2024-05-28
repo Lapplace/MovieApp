@@ -1,4 +1,4 @@
-import { View, Image, Text, ScrollView, TouchableOpacity, Dimensions, Platform } from 'react-native'
+import { View, Image, Text, ScrollView, TouchableOpacity, Dimensions, Platform, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useRoute } from '@react-navigation/native'
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -12,7 +12,7 @@ import MovieList from '../components/movieList';
 import Loading from '../components/loading';
 import { favouriteURL } from '../api/moviedbs';
 import { movieURL, isFavouriteURL } from '../api/moviedbs';
-import { getUserID } from '../server/userName';
+import { getUserID, getVipLevel } from '../server/userName';
 import { imageURL } from '../api/moviedbs';
 
 var { width, height } = Dimensions.get('window')
@@ -28,7 +28,9 @@ export default function MovieScreen() {
      const [userid, setUserID] = useState('');
      const [similarMovies, setSimilarMovies] = useState([]);
      const [loading, setLoading] = useState(false);
-     const movie_id = item.id_movie
+     const [vipLevel, setVipLevel] = useState('');
+     const [isvipLevel, setIsVipLevel] = useState(false);
+     const movie_id = item.id_movie;
      // console.log("id movie: ",movie_id);
      // console.log(isFavourite)
 
@@ -58,17 +60,29 @@ export default function MovieScreen() {
                console.error('There was a problem with the fetch operation:', error);
           }
      };
+     // console.log(vipLevel);
      useEffect(() => {
           fetchData();
+          fetchVipLevel();
      }, [])
+     useEffect(() => {
+          if (vipLevel && vipLevel !== 'none') {
+               setIsVipLevel(true);
+          } else {
+               setIsVipLevel(false);
+          }
+     }, [vipLevel]);
      const fetchData = async () => {
           await getSimilarMovies();
           const userID = await getUserID();
           // console.log("ID của người dùng:", userID);
           setUserID(userID);
           await checkFavourite(userID, movie_id);
-          setLoading(false);
      }
+     const fetchVipLevel = async () => {
+          const vipLv = await getVipLevel();
+          setVipLevel(vipLv);
+     };
      const getSimilarMovies = async () => {
           fetch(`${movieURL}`)
                .then(response => response.json())
@@ -105,71 +119,83 @@ export default function MovieScreen() {
           }
      };
      return (
-          <ScrollView
-               contentContainerStyle={{ paddingBottom: 20 }}
-               className="flex-1 bg-neutral-900"
-          >
-               <View className="w-full">
-                    <SafeAreaView className={"absolute z-20 w-full flex-row justify-between items-center px-4" + topMargin}>
-                         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.background} className="rounded-xl p-1">
-                              <ChevronLeftIcon size="28" strokeWidth={2.5} color="white" />
-                         </TouchableOpacity>
-                         <TouchableOpacity onPress={() => updateFavourite(userid, movie_id, isFavourite)}>
-                              <HeartIcon size="35" color={isFavourite ? theme.background : "white"} />
-                         </TouchableOpacity>
-                    </SafeAreaView>
-                    {
-                         loading ? (
-                              <Loading />
-                         ) : (
-                              <View>
-                                   <Image
-                                        source={{ uri: getFullImageLink(item.image_link) }}
-                                        style={{ width, height: height * 0.55 }}
-                                   />
-                                   <LinearGradient
-                                        colors={['transparent', 'rgba(23,23,23,0.8)', 'rgba(23,23,23,1)']}
-                                        style={{ width, height: height * 0.40 }}
-                                        start={{ x: 0.5, y: 0 }}
-                                        end={{ x: 0.5, y: 1 }}
-                                        className="absolute bottom-0"
-                                   />
-                              </View>
-                         )
-                    }
-               </View>
-               <View style={{ marginTop: -(height * 0.0) }} className="space-y-3">
-                    <Text className="text-white text-center text-3xl font-bold tracking-wider ">
+          isvipLevel ? (
+               <ScrollView
+                    contentContainerStyle={{ paddingBottom: 20 }}
+                    className="flex-1 bg-neutral-900"
+               >
+                    <View className="w-full">
+                         <SafeAreaView className={"absolute z-20 w-full flex-row justify-between items-center px-4" + topMargin}>
+                              <TouchableOpacity onPress={() => navigation.goBack()} style={styles.background} className="rounded-xl p-1">
+                                   <ChevronLeftIcon size="28" strokeWidth={2.5} color="white" />
+                              </TouchableOpacity>
+                              <TouchableOpacity onPress={() => updateFavourite(userid, movie_id, isFavourite)}>
+                                   <HeartIcon size="35" color={isFavourite ? theme.background : "white"} />
+                              </TouchableOpacity>
+                         </SafeAreaView>
                          {
-                              item.title
+                              loading ? (
+                                   <Loading />
+                              ) : (
+                                   <View>
+                                        <Image
+                                             source={{ uri: getFullImageLink(item.image_link) }}
+                                             style={{ width, height: height * 0.55 }}
+                                        />
+                                        <LinearGradient
+                                             colors={['transparent', 'rgba(23,23,23,0.8)', 'rgba(23,23,23,1)']}
+                                             style={{ width, height: height * 0.40 }}
+                                             start={{ x: 0.5, y: 0 }}
+                                             end={{ x: 0.5, y: 1 }}
+                                             className="absolute bottom-0"
+                                        />
+                                   </View>
+                              )
                          }
-                    </Text>
-                    {/* Hiển thị thời gian xuất bản và thời lượng phim */}
-                    <Text className="text-neutral-400 font-semibold text-base text-center">
-                         năm {item?.release_date?.split('-')[0]} • {item?.duration} phút
-                    </Text>
-
-                    {/* Hiển thị mô tả phim */}
-                    <Text className="text-neutral-400 mx-4 tracking-wider">
-                         {item?.summary}
-                    </Text>
-                    <View style={{ backgroundColor: 'black', padding: 10 }}>
-                         <Text style={{ color: 'white' }}>
-                              Diễn viên: {item.actors}
-                         </Text>
                     </View>
-                    <TouchableOpacity
-                         style={styles.background}
-                         onPress={() => navigation.push('ViewVideo', item)}
-                         className="font-bold py-2 px-4 rounded-full"
-                    >
-                         <Text className="text-white text-center text-2xl">Play</Text>
-                    </TouchableOpacity>
-               </View>
+                    <View style={{ marginTop: -(height * 0.0) }} className="space-y-3">
+                         <Text className="text-white text-center text-3xl font-bold tracking-wider ">
+                              {
+                                   item.title
+                              }
+                         </Text>
+                         {/* Hiển thị thời gian xuất bản và thời lượng phim */}
+                         <Text className="text-neutral-400 font-semibold text-base text-center">
+                              năm {item?.release_date?.split('-')[0]} • {item?.duration} phút
+                         </Text>
 
-               {/* {cast.length > 0 && <Cast navigation={navigation} cast={cast} />} */}
+                         {/* Hiển thị mô tả phim */}
+                         <Text className="text-neutral-400 mx-4 tracking-wider">
+                              {item?.summary}
+                         </Text>
+                         <View style={{ backgroundColor: 'black', padding: 10 }}>
+                              <Text style={{ color: 'white' }}>
+                                   Diễn viên: {item.actors}
+                              </Text>
+                         </View>
+                         <TouchableOpacity
+                              style={styles.background}
+                              onPress={() => navigation.push('ViewVideo', item)}
+                              className="font-bold py-2 px-4 rounded-full"
+                         >
+                              <Text className="text-white text-center text-2xl">Play</Text>
+                         </TouchableOpacity>
+                    </View>
 
-               <MovieList title="Similar Movies" hideSeeAll={true} data={similarMovies} />
-          </ScrollView>
+                    {/* {cast.length > 0 && <Cast navigation={navigation} cast={cast} />} */}
+
+                    <MovieList title="Similar Movies" hideSeeAll={true} data={similarMovies} />
+               </ScrollView>
+          ) : (
+               Alert.alert("Copyright issues", "VIP registration required to continue",[
+                    {
+                         text: "Cancel",
+                         onPress:()=> {navigation.goBack();},
+                    },{
+                         text: "Ok",
+                         onPress:()=> console.log("chuyển đến trang đăng kí vip"),
+                    }
+               ])
+          )
      )
 }
